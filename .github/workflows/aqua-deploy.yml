@@ -56,14 +56,14 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
           #role-session-name: GitHubActions
-      #- name: Login to Amazon ECR
-      #  id: login-ecr
-      #  uses: aws-actions/amazon-ecr-login@v2
-      - name: Native docker ECR login
-        id: docker-ecr-login
-        run: |
-          result=$(aws ecr get-login-password --region $AWS_REGION| docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }})
-          echo "Login Result: $result"
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+     # - name: Native docker ECR login
+      #  id: docker-ecr-login
+       # run: |
+        #  result=$(aws ecr get-login-password --region $AWS_REGION| docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }})
+         # echo "Login Result: $result"
       - name: Tag and push image to Amazon ECR (+latest)
         run: |
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-latest
