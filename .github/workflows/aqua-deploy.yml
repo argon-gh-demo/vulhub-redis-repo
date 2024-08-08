@@ -66,7 +66,6 @@ jobs:
          # echo "Login Result: $result"
       - name: Tag and push image to Amazon ECR (+latest)
         run: |
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-latest
