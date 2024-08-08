@@ -34,7 +34,7 @@ jobs:
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj  
       - name: Build image locally
         run: |
-          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG" .
+          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:vulhubredis$IMAGE_TAG" .
       - name: Manifest Generation
         run: |
           curl -sLo install.sh download.codesec.aquasec.com/billy/install.sh
@@ -49,7 +49,7 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-              --artifact-path "$ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG"
+              --artifact-path "$ECR_REGISTRY/$ECR_REPOSITORY:vulhubredis$IMAGE_TAG"
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -66,6 +66,6 @@ jobs:
          # echo "Login Result: $result"
       - name: Tag and push image to Amazon ECR (+latest)
         run: |
-          docker tag ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhub-redis-${IMAGE_TAG} ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhub-redis-latest
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhub-redis-${IMAGE_TAG}
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhub-redis-latest
+          docker tag ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredis${IMAGE_TAG} ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredislatest
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredis${IMAGE_TAG}
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredislatest
