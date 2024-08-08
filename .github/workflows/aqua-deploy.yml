@@ -58,9 +58,9 @@ jobs:
           #role-session-name: GitHubActions
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
       - name: Tag and push image to Amazon ECR (+latest)
         run: |
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:vuhub-redis-latest
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:vulhub-redis-latest
