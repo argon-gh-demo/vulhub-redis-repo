@@ -58,7 +58,7 @@ jobs:
           #role-session-name: GitHubActions
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@v1
      # - name: Native docker ECR login
       #  id: docker-ecr-login
        # run: |
