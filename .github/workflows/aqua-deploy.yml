@@ -20,6 +20,7 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AQUA_URL: ${{ secrets.AQUA_URL }}
       CSPM_URL: ${{ secrets.CSPM_URL }}
+      BILLY_SERVER: ${{ secrets.BILLY_SERVER }}
       
     permissions:
         id-token: write
