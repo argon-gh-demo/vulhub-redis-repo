@@ -77,6 +77,5 @@ jobs:
          # echo "Login Result: $result"
       - name: Tag and push image to Amazon ECR
         run: |
-          docker tag $ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG
           docker push $ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG
 
