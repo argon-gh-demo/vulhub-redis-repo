@@ -40,11 +40,11 @@ jobs:
           args: trivy -d fs --scanners misconfig,vuln,secret . --sast
       - name: Build image locally
         run: |
-          docker build -t "$ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG" .
+          docker build -t "$ECR_REGISTRY/aquainteglab:$ECR_REPOSITORY$IMAGE_TAG" .
       - name: Login to Aqua Registry and run Image Scan
         run: |
           docker login registry.aquasec.com -u ${{ secrets.TRIVY_USERNAME }} -p ${{ secrets.TRIVY_PASSWORD }}
-          docker run -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2410.6.26 scan --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}} --local --registry "Docker Hub" $ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG
+          docker run -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2410.6.26 scan --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}} --local --registry "Docker Hub" $ECR_REGISTRY/aquainteglab:$ECR_REPOSITORY$IMAGE_TAG
       - name: Manifest Generation
         run: |
           export BILLY_SERVER=$BILLY_SERVER
@@ -60,7 +60,7 @@ jobs:
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-              --artifact-path "$ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG"
+              --artifact-path "$ECR_REGISTRY/aquainteglab:$ECR_REPOSITORY$IMAGE_TAG"
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -72,5 +72,5 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Tag and push image to Amazon ECR
         run: |
-          docker push $ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG
+          docker push $ECR_REGISTRY/aquainteglab:$ECR_REPOSITORY$IMAGE_TAG
 
