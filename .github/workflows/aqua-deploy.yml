@@ -75,8 +75,8 @@ jobs:
        # run: |
         #  result=$(aws ecr get-login-password --region $AWS_REGION| docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }})
          # echo "Login Result: $result"
-      - name: Tag and push image to Amazon ECR (+latest)
+      - name: Tag and push image to Amazon ECR
         run: |
-          docker tag ${ECR_REGISTRY}/aquainteg:${ECR_REPOSITORY}${IMAGE_TAG} ${ECR_REGISTRY}/${ECR_REPOSITORY}:latest
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}${IMAGE_TAG}
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:latest
+          docker tag $ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG
+          docker push $ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG
+
