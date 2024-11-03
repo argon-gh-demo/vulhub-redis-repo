@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - deploy-c2c-dev
+      
 jobs:
   all-in-one:
     name: Aqua scanner
