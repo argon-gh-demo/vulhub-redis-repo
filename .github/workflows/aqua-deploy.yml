@@ -40,11 +40,11 @@ jobs:
           args: trivy -d fs --scanners misconfig,vuln,secret . --sast
       - name: Build image locally
         run: |
-          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:vulhubredis$IMAGE_TAG" .
+          docker build -t "$ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG" .
       - name: Login to Aqua Registry and run Image Scan
         run: |
           docker login registry.aquasec.com -u ${{ secrets.TRIVY_USERNAME }} -p ${{ secrets.TRIVY_PASSWORD }}
-          docker run -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2410.6.26 scan --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}} --local --registry "Docker Hub" $ECR_REGISTRY/$ECR_REPOSITORY:vulhubredis$IMAGE_TAG
+          docker run -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:2410.6.26 scan --token ${{secrets.AQUA_TOKEN}} --host ${{secrets.AQUA_HOST}} --local --registry "Docker Hub" $ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG
       - name: Manifest Generation
         run: |
           export BILLY_SERVER=$BILLY_SERVER
@@ -56,11 +56,11 @@ jobs:
           fi
           sh install.sh
           rm install.sh install.sh.checksum
-          billy generate \
+          billy -d generate \
               --access-token "${{ secrets.GITHUB_TOKEN }}" \
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
-              --artifact-path "$ECR_REGISTRY/$ECR_REPOSITORY:vulhubredis$IMAGE_TAG"
+              --artifact-path "$ECR_REGISTRY/aquainteg:$ECR_REPOSITORY$IMAGE_TAG"
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -77,6 +77,6 @@ jobs:
          # echo "Login Result: $result"
       - name: Tag and push image to Amazon ECR (+latest)
         run: |
-          docker tag ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredis${IMAGE_TAG} ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredislatest
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredis${IMAGE_TAG}
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:vulhubredislatest
+          docker tag ${ECR_REGISTRY}/aquainteg:${ECR_REPOSITORY}${IMAGE_TAG} ${ECR_REGISTRY}/${ECR_REPOSITORY}:latest
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}${IMAGE_TAG}
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:latest
